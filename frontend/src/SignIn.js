@@ -27,10 +27,28 @@ function SignInForm() {
         password
       });
 
-      // Redirect to dashboard without setting a token
-      history('/dashboard');
+      console.log('Response data:', response.data);
+
+      // Check for a successful login message
+      if (response.data.message === 'Login successful') {
+         // Redirect to dashboard
+        history('/dashboard');
+      } else {
+        alert('Error logging in');
+      }
     } catch (error) {
-      alert('Error logging in');
+      if (error.response) {
+        console.error('Response data:', error.response.data);
+        console.error('Response status:', error.response.status);
+        console.error('Response headers:', error.response.headers);
+        alert(`Error: ${error.response.data.error}`);
+      } else if (error.request) {
+        console.error('Request data:', error.request);
+        alert('No response from server. Please try again later.');
+      } else {
+        console.error('Error message:', error.message);
+        alert('Error logging in');
+      }
     }
 
     setState({
@@ -70,7 +88,7 @@ function SignInForm() {
           onChange={handleChange}
         />
         <a href="#">Forgot your password?</a>
-        <button>Sign In</button>
+        <button type="submit">Sign In</button>
       </form>
     </div>
   );

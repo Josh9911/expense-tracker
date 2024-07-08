@@ -27,15 +27,13 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// JWT secret
-const jwtSecret = 'your_jwt_secret'
 
 // Routes
 app.post('/api/signup', async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword =  password // await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
     res.status(201).json({ message: 'User created successfully' });
@@ -49,24 +47,26 @@ app.post('/api/login', async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
+
     if (!user) {
+      console.log('User not found:', email);
       return res.status(404).json({ error: 'User not found' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    // Direct comparison with stored password (plaintext for demonstration, not recommended)
+    if (password !== user.password) {
+      console.log('Invalid credentials for user:', email);
       return res.status(400).json({ error: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id, name: user.name }, jwtSecret, {
-      expiresIn: '1h'
-    });
-
-    res.json({ token });
+    console.log('Login successful for user:', email);
+    res.json({ message: 'Login successful' });
   } catch (error) {
+    console.error('Error logging in user:', error);
     res.status(500).json({ error: 'Error logging in user' });
   }
 });
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
