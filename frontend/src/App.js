@@ -21,17 +21,11 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignUpPage handleOnClick={handleOnClick} containerClass={containerClass} />} />
         <Route path="/signin" element={<SignInPage handleOnClick={handleOnClick} containerClass={containerClass} />} />
-        <Route path="/dashboard" element={<PrivateRoute />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="*" element={<Navigate to="/signin" />} />
       </Routes>
     </Router>
   );
-}
-
-function PrivateRoute() {
-  const token = localStorage.getItem('token');
-
-  return token ? <DashboardPage /> : <Navigate to="/signin" />;
 }
 
 function SignUpPage({ handleOnClick, containerClass }) {

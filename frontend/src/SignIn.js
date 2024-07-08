@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 function SignInForm() {
   const [state, setState] = useState({
     email: "",
@@ -10,8 +9,7 @@ function SignInForm() {
   });
   const history = useNavigate();
   
-  
-  const handleChange = evt => {
+  const handleChange = (evt) => {
     const value = evt.target.value;
     setState({
       ...state,
@@ -19,7 +17,7 @@ function SignInForm() {
     });
   };
 
-  const handleOnSubmit = async evt => {
+  const handleOnSubmit = async (evt) => {
     evt.preventDefault();
 
     const { email, password } = state;
@@ -29,8 +27,8 @@ function SignInForm() {
         password
       });
 
-      localStorage.setItem('token', response.data.token);
-      history.push('/dashboard');
+      // Redirect to dashboard without setting a token
+      history('/dashboard');
     } catch (error) {
       alert('Error logging in');
     }

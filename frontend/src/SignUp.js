@@ -1,24 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 function SignUpForm() {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     name: "",
     email: "",
     password: ""
   });
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+
   const handleChange = evt => {
     const value = evt.target.value;
     setState({
       ...state,
       [evt.target.name]: value
     });
+    setErrors({
+      ...errors,
+      [evt.target.name]: ""
+    });
+  };
+
+  const validateEmail = email => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
   };
 
   const handleOnSubmit = async evt => {
     evt.preventDefault();
 
     const { name, email, password } = state;
+    let valid = true;
+    const newErrors = { name: "", email: "", password: "" };
+
+    if (!name) {
+      newErrors.name = "Name is required";
+      valid = false;
+    }
+    if (!email) {
+      newErrors.email = "Email is required";
+      valid = false;
+    } else if (!validateEmail(email)) {
+      newErrors.email = "Invalid email format";
+      valid = false;
+    }
+    if (!password) {
+      newErrors.password = "Password is required";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (!valid) return;
 
     try {
       const response = await axios.post('http://localhost:5000/api/signup', {
@@ -61,6 +98,7 @@ function SignUpForm() {
           onChange={handleChange}
           placeholder="Name"
         />
+        {errors.name && <p className="error">{errors.name}</p>}
         <input
           type="email"
           name="email"
@@ -68,6 +106,7 @@ function SignUpForm() {
           onChange={handleChange}
           placeholder="Email"
         />
+        {errors.email && <p className="error">{errors.email}</p>}
         <input
           type="password"
           name="password"
@@ -75,7 +114,8 @@ function SignUpForm() {
           onChange={handleChange}
           placeholder="Password"
         />
-        <button>Sign Up</button>
+        {errors.password && <p className="error">{errors.password}</p>}
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   );
