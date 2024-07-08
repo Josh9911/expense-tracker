@@ -14,11 +14,13 @@ function App() {
     }
   };
 
+  const containerClass = "container " + (type === "signUp" ? "right-panel-active" : "");
+
   return (
     <Router>
       <Routes>
-        <Route path="/signup" element={<SignUpPage handleOnClick={handleOnClick} />} />
-        <Route path="/signin" element={<SignInPage handleOnClick={handleOnClick} />} />
+        <Route path="/signup" element={<SignUpPage handleOnClick={handleOnClick} containerClass={containerClass} />} />
+        <Route path="/signin" element={<SignInPage handleOnClick={handleOnClick} containerClass={containerClass} />} />
         <Route path="/dashboard" element={<PrivateRoute />} />
         <Route path="*" element={<Navigate to="/signin" />} />
       </Routes>
@@ -32,11 +34,11 @@ function PrivateRoute() {
   return token ? <DashboardPage /> : <Navigate to="/signin" />;
 }
 
-function SignUpPage({ handleOnClick }) {
+function SignUpPage({ handleOnClick, containerClass }) {
   return (
     <div className="App">
       <h2>Expense Tracker</h2>
-      <div className="container right-panel-active" id="container">
+      <div className={containerClass} id="container">
         <SignUpForm />
         <div className="overlay-container">
           <div className="overlay">
@@ -54,11 +56,11 @@ function SignUpPage({ handleOnClick }) {
   );
 }
 
-function SignInPage({ handleOnClick }) {
+function SignInPage({ handleOnClick, containerClass }) {
   return (
     <div className="App">
       <h2>Expense Tracker</h2>
-      <div className="container" id="container">
+      <div className={containerClass} id="container">
         <SignUpForm />
         <SignInForm />
         <div className="overlay-container">
