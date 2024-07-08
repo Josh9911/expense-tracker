@@ -1,47 +1,79 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./styles.css";
 import SignInForm from "./SignIn";
 import SignUpForm from "./SignUp";
+import Dashboard from "./Dashboard";
 
-export default function App() {
+function App() {
   const [type, setType] = useState("signIn");
-  const handleOnClick = text => {
+
+  const handleOnClick = (text) => {
     if (text !== type) {
       setType(text);
-      return;
     }
   };
-  const containerClass =
-    "container " + (type === "signUp" ? "right-panel-active" : "");
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<SignUpPage handleOnClick={handleOnClick} />} />
+        <Route path="/signin" element={<SignInPage handleOnClick={handleOnClick} />} />
+        <Route path="/dashboard" element={<PrivateRoute />} />
+        <Route path="*" element={<Navigate to="/signin" />} />
+      </Routes>
+    </Router>
+  );
+}
+
+function PrivateRoute() {
+  const token = localStorage.getItem('token');
+
+  return token ? <DashboardPage /> : <Navigate to="/signin" />;
+}
+
+function SignUpPage({ handleOnClick }) {
   return (
     <div className="App">
       <h2>Expense Tracker</h2>
-      <div className={containerClass} id="container">
+      <div className="container right-panel-active" id="container">
+        <SignUpForm />
+        <div className="overlay-container">
+          <div className="overlay">
+            <div className="overlay-panel overlay-right">
+              <h1>Hello, Friend!</h1>
+              <p>Enter your personal details and start your journey with us</p>
+              <button className="ghost" id="signIn" onClick={() => handleOnClick("signIn")}>
+                Sign In
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SignInPage({ handleOnClick }) {
+  return (
+    <div className="App">
+      <h2>Expense Tracker</h2>
+      <div className="container" id="container">
         <SignUpForm />
         <SignInForm />
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left">
               <h1>Welcome Back!</h1>
-              <p>
-                To keep connected with us please login with your personal info
-              </p>
-              <button
-                className="ghost"
-                id="signIn"
-                onClick={() => handleOnClick("signIn")}
-              >
+              <p>To keep connected with us please login with your personal info</p>
+              <button className="ghost" id="signIn" onClick={() => handleOnClick("signIn")}>
                 Sign In
               </button>
             </div>
             <div className="overlay-panel overlay-right">
               <h1>Hello, Friend!</h1>
-              <p>Enter your personal details and start journey with us</p>
-              <button
-                className="ghost "
-                id="signUp"
-                onClick={() => handleOnClick("signUp")}
-              >
+              <p>Enter your personal details and start your journey with us</p>
+              <button className="ghost" id="signUp" onClick={() => handleOnClick("signUp")}>
                 Sign Up
               </button>
             </div>
@@ -51,3 +83,14 @@ export default function App() {
     </div>
   );
 }
+
+function DashboardPage() {
+  return (
+    <div className="App">
+      <h2>Dashboard</h2>
+      <Dashboard />
+    </div>
+  );
+}
+
+export default App;

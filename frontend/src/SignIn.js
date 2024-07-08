@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+
 function SignInForm() {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     email: "",
     password: ""
   });
+  const history = useNavigate();
+  
+  
   const handleChange = evt => {
     const value = evt.target.value;
     setState({
@@ -12,18 +19,26 @@ function SignInForm() {
     });
   };
 
-  const handleOnSubmit = evt => {
+  const handleOnSubmit = async evt => {
     evt.preventDefault();
 
     const { email, password } = state;
-    alert(`You are login with email: ${email} and password: ${password}`);
-
-    for (const key in state) {
-      setState({
-        ...state,
-        [key]: ""
+    try {
+      const response = await axios.post('http://localhost:5000/api/login', {
+        email,
+        password
       });
+
+      localStorage.setItem('token', response.data.token);
+      history.push('/dashboard');
+    } catch (error) {
+      alert('Error logging in');
     }
+
+    setState({
+      email: "",
+      password: ""
+    });
   };
 
   return (
