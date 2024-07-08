@@ -5,12 +5,20 @@
 
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
 
+:root {
+  --first-color: #FFC1CF; /* Pink  */
+  --second-color: #E8FFB7; /* Tea green */
+  --third-color: #E2A0FF; /* Mauve */
+  --fourth-color: #C4F5FC; /* Light Cyan */
+  --fifth-color: #B7FFD8; /* Aquamarine */
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  background: #f6f5f7;
+  background:var(--first-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,8 +58,8 @@ a {
 
 button {
   border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
+  border: 1px solid var(--third-color);
+  background-color: var(--third-color);
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
@@ -165,9 +173,9 @@ input {
 }
 
 .overlay {
-  background: #ff416c;
-  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
-  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  background: var(--third-color);
+  background: -webkit-linear-gradient(to right, var(--fourth-color), var(--third-color));
+  background: linear-gradient(to right, var(--third-color), var(--third-color));
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;

@@ -1,4 +1,6 @@
 import React from "react";
+import axios from "axios";
+
 function SignUpForm() {
   const [state, setState] = React.useState({
     name: "",
@@ -13,20 +15,27 @@ function SignUpForm() {
     });
   };
 
-  const handleOnSubmit = evt => {
+  const handleOnSubmit = async evt => {
     evt.preventDefault();
 
     const { name, email, password } = state;
-    alert(
-      `You are sign up with name: ${name} email: ${email} and password: ${password}`
-    );
 
-    for (const key in state) {
-      setState({
-        ...state,
-        [key]: ""
+    try {
+      const response = await axios.post('http://localhost:5000/api/signup', {
+        name,
+        email,
+        password
       });
+      alert(response.data.message);
+    } catch (error) {
+      alert('Error signing up');
     }
+
+    setState({
+      name: "",
+      email: "",
+      password: ""
+    });
   };
 
   return (
