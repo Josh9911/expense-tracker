@@ -60,12 +60,14 @@ app.post('/api/login', async (req, res) => {
     }
 
     console.log('Login successful for user:', email);
-    res.json({ message: 'Login successful' });
+    const userData = { name: user.name, email: user.email };
+    res.json({ message: 'Login successful', user: userData });
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).json({ error: 'Error logging in user' });
   }
 });
+
 
 
 const PORT = process.env.PORT || 5000;
