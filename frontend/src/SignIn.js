@@ -8,12 +8,12 @@ function SignInForm() {
     password: ""
   });
   const history = useNavigate();
-  
+
   const handleChange = (evt) => {
-    const value = evt.target.value;
+    const { name, value } = evt.target;
     setState({
       ...state,
-      [evt.target.name]: value
+      [name]: value
     });
   };
 
@@ -82,6 +82,7 @@ function SignInForm() {
           name="email"
           value={state.email}
           onChange={handleChange}
+          required
         />
         <input
           type="password"
@@ -89,6 +90,7 @@ function SignInForm() {
           placeholder="Password"
           value={state.password}
           onChange={handleChange}
+          required
         />
         <a href="#">Forgot your password?</a>
         <button type="submit">Sign In</button>

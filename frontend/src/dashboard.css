@@ -39,8 +39,11 @@
   }
   
   .sidebar ul li a {
+    background-color: var(--third-color);
+    border: none;
     color: black;
-    text-decoration: none;
+    padding: 10px;
+    cursor: pointer;
   }
   
   .sidebar button {
