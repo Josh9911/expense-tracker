@@ -9,12 +9,16 @@ function Sidebar({ onAddExpense }) {
     navigate('/signin');
   };
 
+  const handleDetailedReport = () => {
+    navigate('/detailed_report');
+  };
+
   return (
     <div className="sidebar">
-      <h2>Dashboard</h2>
+      <h2>Expense Tracker</h2>
       <ul>
         <li><a href="#" onClick={onAddExpense}>Add Expense</a></li>
-        <li><a href="#">Profile</a></li>
+        <li><a href="#" onClick={handleDetailedReport}>Detailed Report</a></li>
         <li><a href="#">Settings</a></li>
       </ul>
       <button onClick={handleLogout}>Logout</button>

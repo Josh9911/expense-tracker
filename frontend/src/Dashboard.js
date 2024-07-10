@@ -48,6 +48,8 @@ function Dashboard() {
     setSelectedCard(event.target.value);
   };
 
+  const filteredExpenses = selectedCard ? expenses.filter(expense => expense.card === selectedCard) : expenses;
+
   return (
     <div className="dashboard">
       <Sidebar onAddExpense={() => setIsModalOpen(true)} />
@@ -56,7 +58,6 @@ function Dashboard() {
         {user && (
           <>
             <p>Hello, {user.name}!</p>
-            <p>This is your dashboard.</p>
             <div>
               {/* First Pie Chart with Dropdown */}
               <select value={selectedCard} onChange={handleCardChange}>
@@ -65,7 +66,7 @@ function Dashboard() {
                   <option key={card} value={card}>{card}</option>
                 ))}
               </select>
-              <SpendingChart data={expenses} card={selectedCard} />
+              <SpendingChart data={filteredExpenses} />
             </div>
             <div>
               {/* Second Pie Chart */}

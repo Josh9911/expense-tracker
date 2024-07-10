@@ -104,5 +104,17 @@ app.get('/api/expenses/:userId', async (req, res) => {
   }
 });
 
+// Get distinct cards for a user
+app.get('/api/cards/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const cards = await Expense.distinct("card", { userId });
+    res.status(200).json(cards);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching cards' });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
