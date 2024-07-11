@@ -29,12 +29,8 @@ function SignInForm() {
 
       console.log('Response data:', response.data);
 
-      // Check for a successful login message
       if (response.data.message === 'Login successful') {
-        // Store user data in localStorage
         localStorage.setItem('user', JSON.stringify(response.data.user));
-
-        // Redirect to dashboard
         history('/dashboard');
       } else {
         alert('Error logging in');

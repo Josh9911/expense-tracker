@@ -1,0 +1,45 @@
+/* DetailedReport.css */
+
+:root {
+    --first-color: #FFC1CF; /* Pink */
+    --second-color: #E8FFB7; /* Tea green */
+    --third-color: #E2A0FF; /* Mauve */
+    --fourth-color: #C4F5FC; /* Light Cyan */
+    --fifth-color: #B7FFD8; /* Aquamarine */
+  }
+  
+  .detailed-report {
+    padding: 20px;
+  }
+  
+  .expense-table {
+    margin-top: 20px;
+    border: 1px solid var(--second-color);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border-bottom: 1px solid var(--second-color);
+    padding: 10px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: var(--fourth-color);
+    color: var(--second-color);
+  }
+  
+  tr:nth-child(even) {
+    background-color: var(--fifth-color);
+  }
+  
+  tr:hover {
+    background-color: var(--third-color);
+  }
+  
